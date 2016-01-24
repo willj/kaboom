@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title></title>
+                
+        <style type="text/css">
+            #canvas-wrapper{
+                height:500px;
+            }
+        </style>
+        
+        <script src="src/kaboom.js"></script>
+        <script>
+            
+            var settings = {
+                containerElementId: "canvas-wrapper",
+                canvasWidth: 810,
+                canvasHeight: 536,
+                framesPerSecond: 25,
+                gamesDurationSeconds: 45,
+                //minTicksToLive: 30,
+                //maxTicksToLive: 200,
+                assetDirectory: "static/game/assets/",
+                //assetMap: assetMap, 
+                playAllSounds: true
+            };
+        
+            var myGame = Object.create(kaboom);
+            
+            window.onload = function(){
+                myGame.init(settings);
+            }
+            
+
+        </script>
+    </head>
+    <body>
+        <div id="canvas-wrapper"></div>        
+    </body>
+</html>

@@ -11,8 +11,8 @@
         </style>
         
         <script src="src/kaboom.js"></script>
-        <script>
-            
+        <script src="src/kaboomcanvas.js"></script>
+        <script>            
             var settings = {
                 containerElementId: "canvas-wrapper",
                 canvasWidth: 810,
@@ -32,10 +32,16 @@
                 myGame.init(settings);
             }
             
+            myGame.updateOncePerSecondCallback = function(seconds){
+                document.getElementById("gameTime").innerText = seconds;
+            };
 
         </script>
     </head>
     <body>
-        <div id="canvas-wrapper"></div>        
+        <span id="gameTime"></span>
+        <div id="canvas-wrapper"></div>
+        
+        <button onclick="myGame.startGame();">start</button>        
     </body>
 </html>

@@ -10,9 +10,15 @@
             }
         </style>
         
+        
+        <script src="src/kaboomCanvas.js"></script>
+        <script src="src/kaboomAssetManager.js"></script>
+        <script src="src/kaboomSprite.js"></script>
+        <script src="src/kaboomActor.js"></script>
         <script src="src/kaboom.js"></script>
-        <script src="src/kaboomcanvas.js"></script>
-        <script>            
+        <script src="assetMap.js"></script>
+        <script>     
+                       
             var settings = {
                 containerElementId: "canvas-wrapper",
                 canvasWidth: 810,
@@ -21,12 +27,12 @@
                 gamesDurationSeconds: 45,
                 //minTicksToLive: 30,
                 //maxTicksToLive: 200,
-                assetDirectory: "static/game/assets/",
-                //assetMap: assetMap, 
+                assetDirectory: "assets/",
+                assetMap: assetMap, 
                 playAllSounds: true
             };
         
-            var myGame = Object.create(kaboom);
+            var myGame = Object.create(Kaboom);
             
             window.onload = function(){
                 myGame.init(settings);
@@ -34,7 +40,19 @@
             
             myGame.updateOncePerSecondCallback = function(seconds){
                 document.getElementById("gameTime").innerText = seconds;
+                
+                var x = this.getRandomInt(0, this.settings.canvasWidth);
+                var y = this.getRandomInt(0, this.settings.canvasHeight);
+                
+                if (seconds % 2){
+                    this.actors.push(new KActor("leftPigeon", this.assets.sprites["leftPigeon"], x, y, 75));
+                } else {
+                    this.actors.push(new KActor("rightPigeon", this.assets.sprites["rightPigeon"], x, y, 75));
+                }
+                
             };
+
+
 
         </script>
     </head>
@@ -42,6 +60,6 @@
         <span id="gameTime"></span>
         <div id="canvas-wrapper"></div>
         
-        <button onclick="myGame.startGame();">start</button>        
+        <button onclick="myGame.startGame();">start</button>
     </body>
 </html>

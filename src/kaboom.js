@@ -1,20 +1,23 @@
-var kaboom = {
-    gameReadyCallback: null,
+var Kaboom = {
     gameOverCallback: null,
     drawCallback: null,
     updateCallback: null,
     updateOncePerSecondCallback: null,
-    init: function(settings){
+    init: function(settings, gameReadyCallback){
         this.settings = settings;
-        
-        this.canvas = Object.create(kaboomCanvas); 
-        this.canvas.create(this.settings);
         
         this.gameLoopIntervalId;
         this.actors = [];
         this.frameCount = 0;
         this.approxRunTimeInSeconds = 0;
         this.gameOver = false;
+        
+        this.canvas = Object.create(KaboomCanvas); 
+        this.canvas.create(this.settings);
+        
+        this.assets = Object.create(KaboomAssetManager);
+        this.assets.loadedCallback = gameReadyCallback;
+        this.assets.loadAll(this.settings);
     },
     startGame: function(){
         var self = this;

@@ -1,4 +1,4 @@
-var kaboomCanvas = {
+var KaboomCanvas = {
     create: function(settings){
         this.settings = settings;
         

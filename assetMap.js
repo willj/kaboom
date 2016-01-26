@@ -33,4 +33,4 @@ assetMap.push({
 		]
 });
 
-//assetMap.push({ fileType: "Sound", fileName: "quack.mp3", name: "quack" });
+assetMap.push({ fileType: "Sound", fileName: "quack.mp3", name: "quack" });

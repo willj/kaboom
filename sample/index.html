@@ -26,21 +26,25 @@
                 canvasHeight: 400,
                 framesPerSecond: 25,
                 gamesDurationSeconds: 45,
-                //minTicksToLive: 30,
-                //maxTicksToLive: 200,
+                minTicksToLive: 30,
+                maxTicksToLive: 200,
                 assetDirectory: "assets/",
                 assetMap: assetMap, 
                 playAllSounds: true
             };
         
             window.onload = function(){
+                settings.timerElement = document.getElementById("gameTime");
+                settings.scoreElement = document.getElementById("score");
+                
                 splat.init(settings);
             }
         </script>
     </head>
     <body>
         <span id="gameTime"></span>
-        <button onclick="splat.startGame();">start</button>
+        <span id="score"></span>
+        <button onclick="splat.playGame();">start</button>
         <div id="canvas-wrapper"></div>
     </body>
 </html>

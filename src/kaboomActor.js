@@ -50,7 +50,7 @@ KActor.prototype.setState = function(stateName){
     this.currentFrame = 0;	
 };
 
-KActor.prototype.updateFrame = function(){
+KActor.prototype.updateFrame = function(){    
     if (this.tickCount > 0){
         return;
     }

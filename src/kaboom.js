@@ -48,13 +48,26 @@ var Kaboom = {
         this.frameCounter();
         this.updateOncePerSecond();
         
+        var actorsToKill = [];
+
+        for (var i = 0; i < this.actors.length; i++) {
+            this.actors[i].update();
+            if (this.actors[i].killed){
+                actorsToKill.push(i);
+            }
+        }
+
+        for (var i = 0; i < actorsToKill.length; i++){
+            this.actors.splice(actorsToKill[i], 1);
+        }
+        
         if (this.updateCallback){
             this.updateCallback.apply(this);
         }
     },
     draw: function(){
-        this.canvas.context.clearRect(0, 0, this.canvas.getWidth, this.canvas.getHeight);
-        
+        this.canvas.context.clearRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
+                
         for (var i = 0; i < this.actors.length; i++){
             this.actors[i].draw(this.canvas.context);
         }

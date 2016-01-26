@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title></title>
+                
+        <style type="text/css">
+            #canvas-wrapper{
+                height:500px;
+            }
+            
+            .animtest{
+                background-color: #ff0000;
+            }
+            
+        </style>
+        
+        <script src="kaboom.min.js"></script>
+        <script src="splatgame.js"></script>
+        <script src="assetMap.js"></script>
+        <script>     
+                       
+            var settings = {
+                containerElementId: "canvas-wrapper",
+                canvasWidth: 600,
+                canvasHeight: 400,
+                framesPerSecond: 25,
+                gamesDurationSeconds: 45,
+                //minTicksToLive: 30,
+                //maxTicksToLive: 200,
+                assetDirectory: "assets/",
+                assetMap: assetMap, 
+                playAllSounds: true
+            };
+        
+            window.onload = function(){
+                splat.init(settings);
+            }
+        </script>
+    </head>
+    <body>
+        <span id="gameTime"></span>
+        <button onclick="splat.startGame();">start</button>
+        <div id="canvas-wrapper"></div>
+    </body>
+</html>

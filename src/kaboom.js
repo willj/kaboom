@@ -3,7 +3,7 @@ var Kaboom = {
     drawCallback: null,
     updateCallback: null,
     updateOncePerSecondCallback: null,
-    init: function(settings, gameReadyCallback){
+    initialize: function(settings, gameReadyCallback){
         this.settings = settings;
         
         this.gameLoopIntervalId;

@@ -18,6 +18,7 @@ var Kaboom = {
         this.assets = Object.create(KaboomAssetManager);
         this.assets.loadedCallback = gameReadyCallback;
         this.assets.loadAll(this.settings);
+        
     },
     startGame: function(){
         var self = this;
@@ -72,6 +73,8 @@ var Kaboom = {
         }
         
         this.approxRunTimeInSeconds += 1;
+        
+        this.canvas.removeAnimationClass();
         
         if (this.updateOncePerSecondCallback){
             this.updateOncePerSecondCallback.apply(this, [this.approxRunTimeInSeconds]);

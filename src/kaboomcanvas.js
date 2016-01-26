@@ -33,5 +33,20 @@ var KaboomCanvas = {
     },
     getHeight: function(){
         return this.canvasElement.height;
+    },
+    animationClassTimeOut: 0,
+    applyAnimationClass: function (className, durationInSeconds){
+        if (this.animationClassTimeOut === 0){	// only if there's no other animation class still running
+            this.canvasElement.className = className;	
+            this.animationClassTimeOut = (this.approxRunTimeInSeconds + durationInSeconds);	
+        }
+    },
+    removeAnimationClass: function (){
+        if (this.animationClassTimeOut > 0){
+            if (this.animationClassTimeOut < this.approxRunTimeInSeconds){
+                this.canvasElement.className = "";	
+                this.animationClassTimeOut = 0;
+            } 
+        }
     }
 };

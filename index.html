@@ -8,6 +8,11 @@
             #canvas-wrapper{
                 height:500px;
             }
+            
+            .animtest{
+                background-color: #ff0000;
+            }
+            
         </style>
         
         
@@ -49,12 +54,10 @@
                 } else {
                     this.actors.push(new KActor("rightPigeon", this.assets.sprites["rightPigeon"], x, y, 75));
                     this.assets.playSound("quack");
+                    this.canvas.applyAnimationClass("animtest", 4);
                 }
                 
             };
-
-
-
         </script>
     </head>
     <body>

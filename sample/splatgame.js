@@ -54,13 +54,20 @@ splat.generateNewActors = function(){
     var x = this.getRandomInt(0, this.settings.canvasWidth);
     var y = this.getRandomInt(0, this.settings.canvasHeight);
 
-    if (this.frameCount % 4 === 0){																					
+    var velocityX = this.getRandomInt(-3, 3); 
+    var velocityY = this.getRandomInt(1, 3);
+
+    if (this.frameCount % 4 === 0){
         if (x % 2 === 0){
-            this.actors.push(new KActor("leftPigeon", this.assets.sprites["leftPigeon"], x, y, ticksToLive));
+            var newActor = new KActor("leftPigeon", this.assets.sprites["leftPigeon"], x, y, ticksToLive);
         } else {
-            this.actors.push(new KActor("rightPigeon", this.assets.sprites["rightPigeon"], x, y, ticksToLive));
+            var newActor = new KActor("rightPigeon", this.assets.sprites["rightPigeon"], x, y, ticksToLive);
             this.assets.playSound("quack");	
-        } 
+        }
+        
+        newActor.velocityX = velocityX;
+        newActor.velocityY = velocityY;
+        this.actors.push(newActor);
     }
 };
 

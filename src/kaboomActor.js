@@ -11,6 +11,8 @@ function KActor(name, sprite, posX, posY, ticksToLive){
     this.tickCount = 0;
     this.ticksPerUpdate = 1;
     this.ticksToLive = ticksToLive || -2;	// -2 live forever
+    this.velocityX = 0;
+    this.velocityY = 0;
 }
 
 KActor.prototype.kill = function(){
@@ -27,6 +29,9 @@ KActor.prototype.update = function(){
             this.killed = true;
         }
     }
+
+    this.posX += this.velocityX;
+    this.posY += this.velocityY;
 
     this.updateFrame();
 };

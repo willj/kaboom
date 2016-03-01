@@ -21,6 +21,11 @@ splat.playGame = function(){
     
     this.startGame();  
     
+    this.blueThing = new KActor("blue", this.assets.sprites["blue"], 100, 100, -2);
+    this.actors.push(this.blueThing);
+    
+    this.blueThing.rotateTo(45);
+    
     // play background sound
 };
 
@@ -82,6 +87,8 @@ splat.updateOncePerSecondCallback = function(seconds){
     }
     
     this.increaseNewActorWeighting();
+    
+    this.blueThing.rotateBy(45);
 };
 
 splat.onMouseClick = function(event){

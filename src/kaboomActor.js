@@ -13,6 +13,8 @@ function KActor(name, sprite, posX, posY, ticksToLive){
     this.ticksToLive = ticksToLive || -2;	// -2 live forever
     this.velocityX = 0;
     this.velocityY = 0;
+    this.rotation = 0;
+    this.shouldRotate = false;
 }
 
 KActor.prototype.kill = function(){
@@ -37,6 +39,21 @@ KActor.prototype.update = function(){
 };
 
 KActor.prototype.draw = function(context){
+
+    if (this.shouldRotate){
+        context.save();
+        
+        // move the origin to the center of this actor
+        var translateX = this.posX + (this.sprite.width / 2);
+        var translateY = this.posY + (this.sprite.height / 2);
+        context.translate(translateX,translateY);
+        
+        context.rotate(this.rotation * Math.PI / 180);
+        
+        // then move it back so we drawImage in the right place
+        context.translate(-translateX,-translateY);
+    }
+    
     context.drawImage(
         this.sprite.image,
         this.currentSourceX,
@@ -47,7 +64,21 @@ KActor.prototype.draw = function(context){
         this.posY,
         this.sprite.width,
         this.sprite.height);
+        
+    if (this.shouldRotate){
+        context.restore();
+    }
 };
+
+KActor.prototype.rotateBy = function(degrees){
+    this.rotation += degrees;
+    this.shouldRotate = true;
+}
+
+KActor.prototype.rotateTo = function(degrees){
+    this.rotation = degrees;
+    this.shouldRotate = true;
+}
 
 KActor.prototype.setState = function(stateName){
     this.currentState = stateName;

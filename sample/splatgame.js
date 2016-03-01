@@ -108,7 +108,7 @@ splat.onMouseClick = function(event){
                 case "red":	// reset back to zero
                     this.actors[i].setState("fadeAndDie");
                     this.updateScore(0);
-                    this.canvas.applyAnimationClass("flashbg", 1);
+                    this.canvas.applyAnimationClass("flashbg", 2);
                     this.assets.playSound("thunder");
                 break;
             }

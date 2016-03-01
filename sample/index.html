@@ -17,6 +17,25 @@
                 background-color: #ff0000;
             }
             
+            .flashbg{
+                animation: flashBackground 0.8s;
+                -webkit-animation: flashBackground 0.8s;
+            }
+
+            @keyframes flashBackground {
+                0% {background: rgba(255,0,0,0.5); }
+                33% {background: rgba(255,0,0,0);}
+                50% {background: rgba(255,0,0,0.5);}
+                100% {background: rgba(255,0,0,0);}
+            }
+
+            @-webkit-keyframes flashBackground{
+                0% {background: rgba(255,0,0,0.5); }
+                33% {background: rgba(255,0,0,0);}
+                50% {background: rgba(255,0,0,0.5);}
+                100% {background: rgba(255,0,0,0);}
+            }
+            
         </style>
         
         <script src="kaboom.min.js"></script>

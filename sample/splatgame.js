@@ -59,9 +59,10 @@ splat.generateNewActors = function(){
 
     if (this.frameCount % 4 === 0){
         if (x % 2 === 0){
-            var newActor = new KActor("leftPigeon", this.assets.sprites["leftPigeon"], x, y, ticksToLive);
+            //var newActor = new KActor("leftPigeon", this.assets.sprites["leftPigeon"], x, y, ticksToLive);
+            var newActor = new KActor("yellow", this.assets.sprites["yellow"], x, y, ticksToLive);
         } else {
-            var newActor = new KActor("rightPigeon", this.assets.sprites["rightPigeon"], x, y, ticksToLive);
+            var newActor = new KActor("red", this.assets.sprites["red"], x, y, ticksToLive);
             this.assets.playSound("quack");	
         }
         
@@ -99,18 +100,16 @@ splat.onMouseClick = function(event){
     for (var i = (this.actors.length - 1); i >= 0; i--){
         if (this.detectClickCollision(mouseX, mouseY, this.actors[i])){
             switch (this.actors[i].name) {
-                case "leftPigeon":		
+                case "yellow":		
+                case "blue":
                     this.updateScore(this.score + 1);
                     this.actors[i].setState("fadeAndDie");
                 break;
-                case "enemy":	// reset back to zero
-                    this.actors[i].kill();
+                case "red":	// reset back to zero
+                    this.actors[i].setState("fadeAndDie");
                     this.updateScore(0);
                     this.canvas.applyAnimationClass("flashbg", 1);
                     this.assets.playSound("thunder");
-                break;
-                case "rightPigeon":	// don't do anything, just remove it
-                    this.actors[i].setState("fadeAndDie");
                 break;
             }
             return;

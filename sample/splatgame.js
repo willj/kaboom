@@ -21,7 +21,8 @@ splat.playGame = function(){
     
     this.startGame();  
     
-    this.blueThing = new KActor("blue", this.assets.sprites["blue"], 100, 100, -2);
+    this.blueThing = Object.create(KaboomActor);
+    this.blueThing.init("blue", this.assets.sprites["blue"], 100, 100);
     this.actors.push(this.blueThing);
     
     this.blueThing.rotateTo(45);
@@ -63,11 +64,14 @@ splat.generateNewActors = function(){
     var velocityY = this.getRandomInt(1, 3);
 
     if (this.frameCount % 4 === 0){
+        var newActor = Object.create(KaboomActor);
+        
         if (x % 2 === 0){
-            //var newActor = new KActor("leftPigeon", this.assets.sprites["leftPigeon"], x, y, ticksToLive);
-            var newActor = new KActor("yellow", this.assets.sprites["yellow"], x, y, ticksToLive);
+            newActor.init("yellow", this.assets.sprites["yellow"], x, y);
+            newActor.ticksToLive = ticksToLive;
         } else {
-            var newActor = new KActor("red", this.assets.sprites["red"], x, y, ticksToLive);
+            newActor.init("red", this.assets.sprites["red"], x, y);
+            newActor.ticksToLive = ticksToLive;
             this.assets.playSound("quack");	
         }
         

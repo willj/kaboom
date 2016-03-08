@@ -45,7 +45,7 @@ var KaboomActor = {
             var translateY = this.posY + (this.sprite.height / 2);
             context.translate(translateX,translateY);
             
-            context.rotate(this.rotation * Math.PI / 180);
+            context.rotate(Kaboom.degreesToRadians(this.rotation));
             
             // then move it back so we drawImage in the right place
             context.translate(-translateX,-translateY);

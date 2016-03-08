@@ -93,5 +93,8 @@ var Kaboom = {
     },
     getRandomInt: function (min, max){
         return Math.floor(Math.random() * (max - min)) + min;
+    },
+    degreesToRadians: function(degrees){
+        return degrees * (Math.PI / 180);
     }
 };

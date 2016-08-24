@@ -98,5 +98,13 @@ var KaboomActor = {
         } else {
             this.currentSourceX = this.sprite.states[this.currentState][this.currentFrame] * this.sprite.width;
         }
+    },
+    getHitRect: function(){
+        return {
+            top: this.posY + this.sprite.hitMargin.top,
+            right: this.posX + (this.sprite.width - this.sprite.hitMargin.right),
+            bottom: (this.posY + this.sprite.height) - this.sprite.hitMargin.bottom,
+            left: this.posX + this.sprite.hitMargin.left
+        };
     }
 };

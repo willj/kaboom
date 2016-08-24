@@ -35,7 +35,7 @@ var KaboomAssetManager = {
             for (var i = 0; i < asset.sprites.length; i++){
                 var spr = asset.sprites[i];	
                 this.sprites[spr.name] = Object.create(KaboomSprite); 
-                this.sprites[spr.name].init(this.images[asset.fileName], spr.startX, spr.startY, spr.width, spr.height, spr.states);
+                this.sprites[spr.name].init(this.images[asset.fileName], spr.startX, spr.startY, spr.width, spr.height, spr.states, spr.hitMargin);
             }
         }
         

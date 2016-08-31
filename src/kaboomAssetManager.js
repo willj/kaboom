@@ -64,7 +64,9 @@ var KaboomAssetManager = {
     stopSound: function(soundFile){		
         if (this.sounds[soundFile] != null){
             this.sounds[soundFile].pause();
-            this.sounds[soundFile].currentTime = 0;
+            if (this.sounds[soundFile].currentTime > 0){
+                this.sounds[soundFile].currentTime = 0;    
+            }
         }
     },
     // iOS/Android need to activate the Audio element from a click first or they won't play.

@@ -77,7 +77,7 @@ var KaboomActor = {
     setState: function(stateName){
         this.currentState = stateName;
         this.currentStateFrameCount = this.sprite.states[this.currentState].length;
-        this.currentFrame = 0;	
+        this.currentFrame = -1;	
     },
     updateFrame: function(){    
         if (this.tickCount > 0){
@@ -85,6 +85,7 @@ var KaboomActor = {
         }
 
         this.currentFrame += 1;
+
         if (this.currentFrame > this.currentStateFrameCount){
             this.currentFrame = 0;
         }

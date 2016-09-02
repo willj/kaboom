@@ -1,4 +1,8 @@
-var KaboomCanvas = {
+if (typeof kaboom == "undefined"){
+    var kaboom = {};
+}
+
+kaboom.canvas = {
     create: function(settings){
         this.settings = settings;
         

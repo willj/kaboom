@@ -1,9 +1,9 @@
-var splat = Object.create(Kaboom);
+var splat = kaboom.createGame();
      
 splat.init = function(settings){
-    splat.initialize(settings, this.loaded);
-    splat.newActorWeighting = 0;
-    splat.score = 0;
+    this.initialize(settings, this.loaded);
+    this.newActorWeighting = 0;
+    this.score = 0;
     
     var self = this;
     this.canvas.canvasElement.addEventListener("click", function (e){
@@ -21,8 +21,8 @@ splat.playGame = function(){
     
     this.startGame();  
     
-    this.blueThing = Object.create(KaboomActor);
-    this.blueThing.init("blue", this.assets.sprites["blue"], 100, 100);
+    this.blueThing = kaboom.createActor("blue", this.assets.sprites["blue"], 100, 100);
+
     this.actors.push(this.blueThing);
     
     this.blueThing.rotateTo(45);
@@ -56,21 +56,21 @@ splat.generateNewActors = function(){
         return;
     }
 
-    var ticksToLive = this.getRandomInt(this.settings.minTicksToLive, this.settings.maxTicksToLive);
-    var x = this.getRandomInt(0, this.settings.canvasWidth);
-    var y = this.getRandomInt(0, this.settings.canvasHeight);
+    var ticksToLive = kaboom.util.getRandomInt(this.settings.minTicksToLive, this.settings.maxTicksToLive);
+    var x = kaboom.util.getRandomInt(0, this.settings.canvasWidth);
+    var y = kaboom.util.getRandomInt(0, this.settings.canvasHeight);
 
-    var velocityX = this.getRandomInt(-3, 3); 
-    var velocityY = this.getRandomInt(1, 3);
+    var velocityX = kaboom.util.getRandomInt(-3, 3); 
+    var velocityY = kaboom.util.getRandomInt(1, 3);
 
     if (this.frameCount % 4 === 0){
-        var newActor = Object.create(KaboomActor);
+        var newActor;
         
         if (x % 2 === 0){
-            newActor.init("yellow", this.assets.sprites["yellow"], x, y);
+            newActor = kaboom.createActor("yellow", this.assets.sprites["yellow"], x, y);
             newActor.ticksToLive = ticksToLive;
         } else {
-            newActor.init("red", this.assets.sprites["red"], x, y);
+            newActor = kaboom.createActor("red", this.assets.sprites["red"], x, y);
             newActor.ticksToLive = ticksToLive;
             this.assets.playSound("quack");	
         }

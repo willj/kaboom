@@ -1,4 +1,8 @@
-var KaboomSprite = {
+if (typeof kaboom == "undefined"){
+    var kaboom = {};
+}
+
+kaboom.sprite = {
     init: function(image, sourceX, sourceY, width, height, states, hitMargin){
         this.image = image;
         this.sourceX = sourceX || 0;

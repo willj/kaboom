@@ -1,4 +1,8 @@
-var KaboomAssetManager = {
+if (typeof kaboom == "undefined"){
+    var kaboom = {};
+}
+
+kaboom.assetManager = {
     images: {},
     sounds: {},
     sprites: {},
@@ -34,7 +38,7 @@ var KaboomAssetManager = {
         if (asset.fileType === "Image"){
             for (var i = 0; i < asset.sprites.length; i++){
                 var spr = asset.sprites[i];	
-                this.sprites[spr.name] = Object.create(KaboomSprite); 
+                this.sprites[spr.name] = Object.create(kaboom.sprite); 
                 this.sprites[spr.name].init(this.images[asset.fileName], spr.startX, spr.startY, spr.width, spr.height, spr.states, spr.hitMargin);
             }
         }

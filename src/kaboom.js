@@ -1,4 +1,12 @@
-var Kaboom = {
+if (typeof kaboom == "undefined"){
+    var kaboom = {};
+}
+
+kaboom.createGame = function(){
+    return Object.create(kaboom.game);
+}
+
+kaboom.game = {
     gameOverCallback: null,
     drawCallback: null,
     updateCallback: null,
@@ -12,10 +20,10 @@ var Kaboom = {
         this.approxRunTimeInSeconds = 0;
         this.gameOver = false;
         
-        this.canvas = Object.create(KaboomCanvas); 
+        this.canvas = Object.create(kaboom.canvas); 
         this.canvas.create(this.settings, this.approxRunTimeInSeconds);
         
-        this.assets = Object.create(KaboomAssetManager);
+        this.assets = Object.create(kaboom.assetManager);
         this.assets.loadedCallback = gameReadyCallback;
         this.assets.loadAll(this.settings);
         
@@ -90,11 +98,5 @@ var Kaboom = {
         if (this.updateOncePerSecondCallback){
             this.updateOncePerSecondCallback.apply(this, [this.approxRunTimeInSeconds]);
         }
-    },
-    getRandomInt: function (min, max){
-        return Math.floor(Math.random() * (max - min)) + min;
-    },
-    degreesToRadians: function(degrees){
-        return degrees * (Math.PI / 180);
     }
 };

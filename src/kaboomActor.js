@@ -1,5 +1,15 @@
-var KaboomActor = {
-    init: function KActor(name, sprite, posX, posY){
+if (typeof kaboom == "undefined"){
+    var kaboom = {};
+}
+
+kaboom.createActor = function(name, sprite, posX, posY){
+    var a = Object.create(kaboom.actor);
+    a.init(name, sprite, posX, posY);
+    return a;
+}
+
+kaboom.actor = {
+    init: function(name, sprite, posX, posY){
         this.name = name;
         this.sprite = sprite;
         this.posX = posX || 0;
@@ -45,7 +55,7 @@ var KaboomActor = {
             var translateY = this.posY + (this.sprite.height / 2);
             context.translate(translateX,translateY);
             
-            context.rotate(Kaboom.degreesToRadians(this.rotation));
+            context.rotate(kaboom.util.degreesToRadians(this.rotation));
             
             // then move it back so we drawImage in the right place
             context.translate(-translateX,-translateY);

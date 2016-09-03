@@ -11,6 +11,13 @@ kaboom.assetManager = {
     loadAll: function(settings){
         this.settings = settings;
         
+        if (this.settings.assetMap.length == 0){
+            if (this.loadedCallback){
+                this.loadedCallback.apply(this);  
+            }
+            return;
+        }
+
         for (var i = 0; i < this.settings.assetMap.length; i++){
             if (this.settings.assetMap[i].fileType === "Image"){
                 this.loadImage(this.settings.assetMap[i]);

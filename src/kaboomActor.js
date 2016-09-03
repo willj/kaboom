@@ -117,5 +117,30 @@ kaboom.actor = {
             bottom: (this.posY + this.sprite.height) - this.sprite.hitMargin.bottom,
             left: this.posX + this.sprite.hitMargin.left
         };
+    },
+    contains: function(otherActor){
+        var a = this.getHitRect();
+        var b = otherActor.getHitRect();
+        
+        if (a.bottom >= b.bottom 
+            && a.top <= b.top 
+            && a.left <= b.left 
+            && a.right >= b.right){
+            
+            return true;
+        }
+
+        return false;
+    },
+    touches: function(otherActor){
+        var a = this.getHitRect();
+        var b = otherActor.getHitRect();
+
+        if (a.top <= b.bottom && a.bottom >= b.top && 
+            a.left <= b.right && a.right >= b.left){
+            return true;
+        }
+
+        return false;
     }
 };

@@ -72,7 +72,7 @@ splat.generateNewActors = function(){
         } else {
             newActor = kaboom.createActor("red", this.assets.sprites["red"], x, y);
             newActor.ticksToLive = ticksToLive;
-            this.assets.playSound("quack");	
+            this.sounds.play("quack");	
         }
         
         newActor.velocityX = velocityX;
@@ -120,7 +120,7 @@ splat.onMouseClick = function(event){
                     this.actors[i].setState("fadeAndDie");
                     this.updateScore(0);
                     this.canvas.applyAnimationClass("flashbg", 2);
-                    this.assets.playSound("thunder");
+                    this.sounds.play("thunder");
                 break;
             }
             return;

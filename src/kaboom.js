@@ -24,6 +24,8 @@ kaboom.game = {
         this.canvas.create(this.settings, this.approxRunTimeInSeconds);
         
         this.assets = Object.create(kaboom.assetManager);
+        this.sounds = Object.create(kaboom.sound);
+        this.sounds.init(this.assets.sounds, this.settings);
         this.assets.loadedCallback = gameReadyCallback;
         this.assets.loadAll(this.settings);
         

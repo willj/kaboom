@@ -82,7 +82,7 @@ splat.generateNewActors = function(){
 };
 
 splat.updateOncePerSecondCallback = function(seconds){
-    var timeLeft = (this.settings.gamesDurationSeconds - seconds);
+    var timeLeft = (this.settings.gameDurationSeconds - seconds);
     
     this.updateTimer(timeLeft);
 

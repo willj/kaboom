@@ -26,9 +26,18 @@ kaboom.actor = {
         this.velocityY = 0;
         this.rotation = 0;
         this.shouldRotate = false;
+        this.opacity = 1;
+        this.fadeState = false;
     },
     kill: function(){
         this.killed = true;	
+    },
+    fade: function(start, end){
+        this.fadeState = {
+            start: start,
+            end: end
+        };
+        this.opacity = start;
     },
     update: function(){
         this.tickCount = (this.tickCount + 1) % this.ticksPerUpdate;
@@ -43,6 +52,8 @@ kaboom.actor = {
 
         this.posX += this.velocityX;
         this.posY += this.velocityY;
+
+        this.updateFade();
 
         this.updateFrame();
     },
@@ -61,6 +72,8 @@ kaboom.actor = {
             context.translate(-translateX,-translateY);
         }
         
+        if (this.opacity < 1) context.globalAlpha = this.opacity;
+
         context.drawImage(
             this.sprite.image,
             this.currentSourceX,
@@ -70,8 +83,11 @@ kaboom.actor = {
             this.posX, 
             this.posY,
             this.sprite.width,
-            this.sprite.height);
-            
+            this.sprite.height
+        );
+        
+        if (this.opacity < 1) context.globalAlpha = 1;
+
         if (this.shouldRotate){
             context.restore();
         }
@@ -103,11 +119,38 @@ kaboom.actor = {
         if(typeof this.sprite.states[this.currentState][this.currentFrame] === "string"){
             if (this.sprite.states[this.currentState][this.currentFrame] === "die"){
                 this.killed = true;	
+            } else if (this.sprite.states[this.currentState][this.currentFrame] === "fadeOut") {
+                this.fade(1, 0);
+            } else if (this.sprite.states[this.currentState][this.currentFrame] === "fadeIn") {
+                this.fade(0, 1);
             } else {
                 this.setState(this.sprite.states[this.currentState][this.currentFrame]);	
             }
         } else {
             this.currentSourceX = this.sprite.states[this.currentState][this.currentFrame] * this.sprite.width;
+        }
+    },
+    updateFade: function(){
+        if (this.fadeState){
+            // fade up
+            if (this.fadeState.start < this.fadeState.end ){  
+                if (this.opacity <= this.fadeState.end){
+                    this.opacity = this.opacity + 0.1;
+                    if (this.opacity >= this.fadeState.end) {
+                        this.opacity = this.fadeState.end;
+                        this.fadeState = false;
+                    }
+                }
+            // fade down
+            } else {    
+                if (this.opacity >= this.fadeState.end){
+                    this.opacity = this.opacity - 0.1;
+                    if (this.opacity <= this.fadeState.end) {
+                        this.opacity = this.fadeState.end;
+                        this.fadeState = false;
+                    }
+                }
+            }
         }
     },
     getHitRect: function(){

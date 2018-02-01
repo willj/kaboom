@@ -188,6 +188,8 @@ frame 0 because that's all `"initial"` defines. When the state is changed (by yo
 `kaboom.actor` will animate through the flash frames, 2 frames of 1 followed by 2 frames of 2, then 3.
 It will then automatically revert back to `"initial"`, because that's what has been specified. 
 
+Special state strings are also available to `"fadeOut"` and `"fadeIn"` an actor, during the opacity fade from `0 to 1` or `1 to 0` the sprites frame will continue to advance, if another special state string is encountered the fade will be interrupted, `"die"`, `"fadeIn"` and `"fadeOut"` will behave normally and begin on the next update.
+
 ### Sounds
 
 ```
@@ -223,6 +225,8 @@ an object with the prototype of `kaboom.actor`.
 - **rotation** & **shouldRotate** - the current rotation in degrees, and whether your actor should be rotated (see rotation methods, you should probably use those)
 - **killed** & **currentState** - the current state, and whether the actor should be removed
 - **ticksToLive** - if you want the actor to die after a certain period
+- **opacity** - the opacity level between 0 and 1
+- **scaleFactor** - a scale factor to apply to the actor, a scaleFactor of 2 would draw the image at twice the size, 0.5 at half the size
 
 ### kill()
 
@@ -249,6 +253,16 @@ Returns true/false if this actor's hit rectangle completely contains `otherActor
 ### touches(otherActor)
 
 Returns true/false if this actor's hit rectangle touches `otherActor`'s hit rectangle.
+
+### fade(start, end)
+
+Animates a fade from the starting opacity level to the end opacity level. Both `start` and `end` should be values between `0` and `1`. Calling `actor.fade(1, 0)` will fade out the image, calling `actor.fade(0.2, 1)` will first set the opacity to 0.2 and then fade up to fully opaque. Each update changes the opacity level by `0.1`.
+
+### scale(start, end)
+
+Animates a scale from the starting scale factor, to the end. Calling `actor.scale(1,2)` will increment the scaleFactor by `0.1` on each update. Once the image is drawn and 2x scale it will remain until another `scale()` call is made, or the scaleFactor is altered. Calling `scale(2,1)` will scale the image back from double size, to it's original size.
+
+`posX` and `posY` are adjusted for a scaled image, so the centre of the image will be drawn in the same position as it would at it's original size.
 
 ## kaboom.sound
 

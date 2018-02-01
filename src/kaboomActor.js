@@ -27,7 +27,9 @@ kaboom.actor = {
         this.rotation = 0;
         this.shouldRotate = false;
         this.opacity = 1;
-        this.fadeState = false;
+        this.fadeState = null;
+        this.scaleFactor = 1;
+        this.scaleState = null;
     },
     kill: function(){
         this.killed = true;	
@@ -54,6 +56,7 @@ kaboom.actor = {
         this.posY += this.velocityY;
 
         this.updateFade();
+        this.updateScale();
 
         this.updateFrame();
     },
@@ -80,10 +83,10 @@ kaboom.actor = {
             this.sprite.sourceY,
             this.sprite.width,
             this.sprite.height,
-            this.posX, 
-            this.posY,
-            this.sprite.width,
-            this.sprite.height
+            this.scaledPosX(), 
+            this.scaledPosY(),
+            this.scaledWidth(),
+            this.scaledHeight()
         );
         
         if (this.opacity < 1) context.globalAlpha = 1;
@@ -91,6 +94,29 @@ kaboom.actor = {
         if (this.shouldRotate){
             context.restore();
         }
+    },
+    scaledPosX: function(){
+        if (this.scaleFactor == 1) return this.posX;
+        
+        return this.posX - ((this.scaledWidth() - this.sprite.width) / 2);
+    },
+    scaledPosY: function(){
+        if (this.scaleFactor == 1) return this.posY;
+
+        return this.posY - ((this.scaledHeight() - this.sprite.height) / 2);
+    },
+    scaledWidth: function(){
+        return this.sprite.width * this.scaleFactor;
+    },
+    scaledHeight: function(){
+        return this.sprite.height * this.scaleFactor;
+    },
+    scale: function(start, end){
+        this.scaleState = {
+            start: start,
+            end: end
+        };
+        this.scaleFactor = start;
     },
     rotateBy: function(degrees){
         this.rotation += degrees;
@@ -138,7 +164,7 @@ kaboom.actor = {
                     this.opacity = this.opacity + 0.1;
                     if (this.opacity >= this.fadeState.end) {
                         this.opacity = this.fadeState.end;
-                        this.fadeState = false;
+                        this.fadeState = null;
                     }
                 }
             // fade down
@@ -147,7 +173,30 @@ kaboom.actor = {
                     this.opacity = this.opacity - 0.1;
                     if (this.opacity <= this.fadeState.end) {
                         this.opacity = this.fadeState.end;
-                        this.fadeState = false;
+                        this.fadeState = null;
+                    }
+                }
+            }
+        }
+    },
+    updateScale: function(){
+        if (this.scaleState){
+            // scale up
+            if (this.scaleState.start < this.scaleState.end ){  
+                if (this.scaleFactor <= this.scaleState.end){
+                    this.scaleFactor = this.scaleFactor + 0.1;
+                    if (this.scaleFactor >= this.scaleState.end) {
+                        this.scaleFactor = this.scaleState.end;
+                        this.scaleState = null;
+                    }
+                }
+            // scale down
+            } else {    
+                if (this.scaleFactor >= this.scaleState.end){
+                    this.scaleFactor = this.scaleFactor - 0.1;
+                    if (this.scaleFactor <= this.scaleState.end) {
+                        this.scaleFactor = this.scaleState.end;
+                        this.scaleState = null;
                     }
                 }
             }

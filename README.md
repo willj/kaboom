@@ -50,7 +50,7 @@ If your game has lots of actors or complex functionality you may want to reduce 
 * assetMap - an array of asset objects, see below for full details
 * playAllSounds - whether to play optional sounds or ignore them, see kaboom.sound for more info
 
-In addition to these required settings, Kaboom will use the following additional known settings
+In addition to these required settings, Kaboom will use the following known settings
 
 * gameDurationSeconds - the number of seconds the game should run for, after this is reached the game will be stopped - if you do not use this you must handle when your game ends.
 * timerElementId - the Id of an HTML element you wish the current remaining game time to be displayed in, this will only be updted if `gameDurationSeconds` is also set.

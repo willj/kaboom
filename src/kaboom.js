@@ -19,6 +19,7 @@ kaboom.game = {
         this.frameCount = 0;
         this.approxRunTimeInSeconds = 0;
         this.gameOver = false;
+        this.score = 0; 
         
         this.canvas = Object.create(kaboom.canvas); 
         this.canvas.create(this.settings, this.approxRunTimeInSeconds);
@@ -36,13 +37,18 @@ kaboom.game = {
             self.update();
             self.draw();
         }, 1000/self.settings.framesPerSecond);
+
+        this.updateScore(0);
+        if (this.settings.gameDurationSeconds){
+            this.updateTimer(this.settings.gameDurationSeconds);
+        }
     },
     stopGame: function(){
         clearInterval(this.gameLoopIntervalId);
         this.gameOver = true;
         this.actors.splice(0, this.actors.length);
         if (this.gameOverCallback){
-            this.gameOverCallback.apply(this);    
+            this.gameOverCallback.apply(this, [this.score]);
         }
     },
     restartGame: function(){
@@ -96,9 +102,35 @@ kaboom.game = {
         }
         
         this.approxRunTimeInSeconds += 1;
-                
+    
+        if (this.settings.gameDurationSeconds){
+            var timeLeft = (this.settings.gameDurationSeconds - this.approxRunTimeInSeconds);
+    
+            this.updateTimer(timeLeft);
+        
+            if (timeLeft <= 0){
+                this.stopGame();
+            }
+        }
+
         if (this.updateOncePerSecondCallback){
             this.updateOncePerSecondCallback.apply(this, [this.approxRunTimeInSeconds]);
+        }
+    },
+    updateScore: function(pointsToAdd){
+        if (pointsToAdd == 0){
+            this.score = 0; // reset
+        }
+    
+        this.score += pointsToAdd;
+        
+        if (this.settings.scoreElementId){
+            document.getElementById(this.settings.scoreElementId).innerText = this.score;
+        }
+    },
+    updateTimer: function (timeLeft){
+        if (this.settings.timerElementId){
+            document.getElementById(this.settings.timerElementId).innerHTML = timeLeft;
         }
     }
 };

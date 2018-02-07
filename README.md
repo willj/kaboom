@@ -43,12 +43,18 @@ var settings = {
     playAllSounds: true 
 };
 ```
-* containerElementId - the ID of the HTML element you want the canvas to be created in
+* containerElementId - the Id of the HTML element you want the canvas to be created in
 * framesPerSecond - the number of times per second the game loop should attempt to run. 
 If your game has lots of actors or complex functionality you may want to reduce this to improve performance
 * assetDirectory - the relative path or absolute URL to the assets directory
 * assetMap - an array of asset objects, see below for full details
 * playAllSounds - whether to play optional sounds or ignore them, see kaboom.sound for more info
+
+In addition to these required settings, Kaboom will use the following additional known settings
+
+* gameDurationSeconds - the number of seconds the game should run for, after this is reached the game will be stopped - if you do not use this you must handle when your game ends.
+* timerElementId - the Id of an HTML element you wish the current remaining game time to be displayed in, this will only be updted if `gameDurationSeconds` is also set.
+* scoreElementId - the Id of an HTML element you wish the score to be displayed in.
 
 ### updateCallback
 
@@ -58,7 +64,7 @@ after dead actors have been removed.
 
 ### updateOncePerSecondCallback
 
-Like `updateCallback` but called approximately once per second, so useful to do things like update the timer.
+Like `updateCallback` but called approximately once per second.
 
 ### drawCallback
 
@@ -68,8 +74,17 @@ and `updateOncePerSecondCallback` and is called once per game loop.
 
 ### gameOverCallback
 
-This is called after `kaboom.stopGame()` has been run. StopGame is not automatically called by kaboom, 
-you handle when a game is considered to be over, at which point you should call `this.stopGame`.
+This is called after `kaboom.stopGame()` has been run. StopGame is automatically called by Kaboom if `settings.gameDurationSeconds` is set. Otherwise you must handle when a game is considered to be over, at which point you should call `this.stopGame()`.
+
+### updateScore(pointsToAdd)
+
+Call this to increment or decrement the score.
+
+* call `updateScore(0)` to reset the score to 0;
+* call `updateScore(1)` to add one point (or 2 for 2 points...)
+* call `updateScore(-1)` to remove one point (or -2 to remove 2 points...)
+
+If `settings.scoreElementId` was set the displayed score will be updated when this is called.
 
 ## kaboom.canvas
 

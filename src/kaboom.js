@@ -14,7 +14,7 @@ kaboom.game = {
     initialize: function(settings, gameReadyCallback){
         this.settings = settings;
         
-        this.gameLoopIntervalId;
+        this.gameLoop = {};
         this.actors = [];
         this.frameCount = 0;
         this.approxRunTimeInSeconds = 0;
@@ -31,12 +31,50 @@ kaboom.game = {
         this.assets.loadAll(this.settings);
         
     },
+    createGameLoop: function(){
+        this.loopStep = this.loopStep.bind(this);
+        this.lastElapsedTime = 0;
+
+        // settings.allowRAF is an opt in to requestAnimationFrame
+        // don't use it yet, because the clock counter needs switching to be based on Date()
+        // rather than a count of frames
+
+        if (window.requestAnimationFrame && this.settings.allowRAF){
+            return {
+                type: "raf",
+                loop: window.requestAnimationFrame(this.loopStep)
+            }
+        } else {
+            return {
+                type: "interval",
+                loop: setInterval(this.loopStep, 1000/this.settings.framesPerSecond)
+            };
+        }
+    },
+    clearGameLoop: function(){
+        if (this.gameLoop.type === "raf"){
+            window.cancelAnimationFrame(this.gameLoop.loop);
+        } else {
+            clearInterval(this.gameLoop.loop);
+        }
+    },
+    loopStep: function(elapsedTime){
+        if (this.gameLoop.type === "raf"){
+            this.gameLoop.loop = window.requestAnimationFrame(this.loopStep);
+
+            // allow settings.framesPerSecond to set a max frame rate
+            // the -3 gives a bit of wiggle room so if it's slightly fast it should still be ok
+            if ((elapsedTime - this.lastElapsedTime) < (1000/this.settings.framesPerSecond) - 3){
+                return;
+            }  
+            this.lastElapsedTime = elapsedTime;
+        }
+  
+        this.update();
+        this.draw();
+    },
     startGame: function(){
-        var self = this;
-        this.gameLoopIntervalId = setInterval(function() {
-            self.update();
-            self.draw();
-        }, 1000/self.settings.framesPerSecond);
+        this.gameLoop = this.createGameLoop();
 
         this.updateScore(0);
         if (this.settings.gameDurationSeconds){
@@ -44,7 +82,7 @@ kaboom.game = {
         }
     },
     stopGame: function(){
-        clearInterval(this.gameLoopIntervalId);
+        this.clearGameLoop();
         this.gameOver = true;
         this.actors.splice(0, this.actors.length);
         if (this.gameOverCallback){
@@ -52,7 +90,7 @@ kaboom.game = {
         }
     },
     restartGame: function(){
-        clearInterval(this.gameLoopIntervalId);
+        this.clearGameLoop();
         this.actors.splice(0, this.actors.length);
         this.draw();
         this.frameCount = 0;
